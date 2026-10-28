@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+import sqlite3
 
 st.set_page_config(
 page_title="SalesPulse Analytics",
@@ -83,6 +84,92 @@ default=df["Category"].unique()
 )
 
 filtered_df = df[df["Category"].isin(selected_categories)]
+
+
+# SQL Business Analytics
+
+st.header("SQL Business Analytics")
+st.write("Generate business insights using SQL queries.")
+
+if filtered_df.empty:
+  st.info("Select at least one category to view SQL analytics.")
+else:
+# Create an in-memory SQLite database
+  with sqlite3.connect(":memory:") as conn:
+   filtered_df.to_sql(
+"sales", conn, index=False, if_exists="replace"
+)
+
+
+    # 1. Category-wise sales and profit
+  category_report = pd.read_sql_query(
+        """
+        SELECT
+            Category,
+            SUM(Sales) AS Total_Revenue,
+            SUM(Profit) AS Total_Profit,
+            COUNT(DISTINCT Order_ID) AS Total_Orders
+        FROM sales
+        GROUP BY Category
+        ORDER BY Total_Revenue DESC
+        """,
+        conn
+    )
+
+  st.subheader("Category Performance")
+  st.dataframe(category_report, width="stretch")
+
+    # 2. Region-wise sales
+  if "Region" in filtered_df.columns:
+        region_report = pd.read_sql_query(
+            """
+            SELECT
+                Region,
+                SUM(Sales) AS Total_Revenue,
+                SUM(Profit) AS Total_Profit
+            FROM sales
+            GROUP BY Region
+            ORDER BY Total_Revenue DESC
+            """,
+            conn
+        )
+
+        st.subheader("Regional Performance")
+        st.dataframe(region_report, width="stretch")
+  else:
+        st.info("Regional report requires a Region column.")
+
+    # 3. Monthly revenue
+  monthly_report = pd.read_sql_query(
+        """
+        SELECT
+            Month,
+            SUM(Sales) AS Total_Revenue
+        FROM sales
+        GROUP BY Month
+        """,
+        conn
+    )
+
+  st.subheader("Monthly Revenue — SQL Report")
+  st.dataframe(monthly_report, width="stretch")
+
+
+
+    # 3. Monthly revenue
+monthly_report = pd.read_sql_query(
+        """
+        SELECT
+            Month,
+            SUM(Sales) AS Total_Revenue
+        FROM sales
+        GROUP BY Month
+        """,
+        conn
+    )
+
+st.subheader("Monthly Revenue — SQL Report")
+st.dataframe(monthly_report, width="stretch")
 
 # Calculate KPIs
 
