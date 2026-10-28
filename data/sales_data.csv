@@ -1,0 +1,16 @@
+Order_ID,Date,Category,Product,Region,Quantity,Sales,Profit
+1001,2026-01-05,Electronics,Keyboard,North,2,2400,600
+1002,2026-01-12,Furniture,Chair,South,1,3500,900
+1003,2026-01-18,Electronics,Mouse,East,3,1500,450
+1004,2026-02-03,Clothing,TShirt,West,4,2000,500
+1005,2026-02-11,Furniture,Desk,North,1,7000,1800
+1006,2026-02-19,Electronics,Monitor,South,2,12000,2400
+1007,2026-03-02,Clothing,Jacket,East,2,4000,1000
+1008,2026-03-10,Furniture,Chair,West,2,7000,1600
+1009,2026-03-15,Electronics,Keyboard,North,1,1200,300
+1010,2026-04-04,Clothing,TShirt,South,3,1500,360
+1011,2026-04-14,Electronics,Monitor,West,1,6000,1200
+1012,2026-04-22,Furniture,Desk,East,1,6500,1500
+1013,2026-05-06,Electronics,Mouse,North,2,1000,280
+1014,2026-05-16,Clothing,Jacket,South,1,2000,450
+1015,2026-05-25,Furniture,Chair,East,3,10500,2400
